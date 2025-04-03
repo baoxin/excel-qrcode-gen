@@ -1,54 +1,59 @@
-# React + TypeScript + Vite
+# Excel 二维码生成器
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个简单易用的网页应用，可以将 Excel 文件中的数据生成对应的二维码。
 
-Currently, two official plugins are available:
+## 功能特点
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📄 支持上传 Excel 文件（.xlsx 和 .xls 格式）
+- 🔄 自动读取 Excel 文件内容并生成二维码
+- ⚙️ 可配置識別コード字段名
+- 📥 支持将生成的二维码列表导出为图片
+- 🎨 美观的用户界面
+- 📱 响应式设计，支持各种设备
 
-## Expanding the ESLint configuration
+## 使用方法
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. 打开应用后，点击右上角的设置图标（⚙️）可以配置識別コード字段名
+2. 点击"上传 Excel 文件"按钮选择要处理的 Excel 文件
+3. 系统会自动读取文件内容并显示在表格中
+4. 每一行的最后一列会显示该行識別コード字段对应的二维码
+5. 点击"下载二维码列表"按钮可以将整个表格保存为图片
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 技术栈
+
+- React + TypeScript
+- Material-UI
+- XLSX.js
+- QRCode.react
+- html2canvas
+- file-saver
+
+## 开发环境设置
+
+1. 克隆项目
+```bash
+git clone [项目地址]
+cd excel-qrcode-gen
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+2. 安装依赖
+```bash
+npm install
 ```
+
+3. 启动开发服务器
+```bash
+npm run dev
+```
+
+4. 在浏览器中访问 http://localhost:5173
+
+## 注意事项
+
+- Excel 文件必须包含識別コード字段（可在设置中修改字段名）
+- 生成的二维码图片会自动下载到您的设备上
+- 建议使用现代浏览器以获得最佳体验
+
+## 许可证
+
+MIT
