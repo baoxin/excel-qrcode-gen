@@ -1,11 +1,12 @@
 import { useState, useRef } from 'react'
-import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, IconButton } from '@mui/material'
+import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { QRCodeSVG } from 'qrcode.react'
 import * as XLSX from 'xlsx'
 import html2canvas from 'html2canvas'
 import { saveAs } from 'file-saver'
 import { SettingsDialog } from './components/SettingsDialog'
+import { Logo } from './components/Logo'
 
 interface ExcelData {
   [key: string]: string
@@ -64,14 +65,31 @@ function App() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-        <Typography variant="h4" component="h1">
-          Excel 二维码生成器
-        </Typography>
-        <IconButton onClick={() => setSettingsOpen(true)} color="primary">
-          <SettingsIcon />
-        </IconButton>
+    <Container maxWidth="lg" sx={{ py: 4, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        mb: 4, 
+        position: 'relative',
+        width: '100%',
+        px: 4
+      }}>
+        <Box sx={{ position: 'relative', width: '100%', maxWidth: '600px' }}>
+          <Logo />
+          <IconButton 
+            onClick={() => setSettingsOpen(true)} 
+            color="primary"
+            sx={{ 
+              position: 'absolute', 
+              right: 0,
+              top: '50%',
+              transform: 'translateY(-50%)'
+            }}
+          >
+            <SettingsIcon />
+          </IconButton>
+        </Box>
       </Box>
       
       <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -101,33 +119,42 @@ function App() {
       </Box>
 
       {excelData.length > 0 && (
-        <TableContainer component={Paper}>
-          <Table ref={tableRef}>
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column}>{column}</TableCell>
-                ))}
-                <TableCell>二维码</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {excelData.map((row, index) => (
-                <TableRow key={index}>
+        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <TableContainer 
+            component={Paper} 
+            sx={{ 
+              width: '100%',
+              maxWidth: '1200px',
+              overflowX: 'auto'
+            }}
+          >
+            <Table ref={tableRef} sx={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
                   {columns.map((column) => (
-                    <TableCell key={column}>{row[column]}</TableCell>
+                    <TableCell key={column} align="center" sx={{ whiteSpace: 'nowrap' }}>{column}</TableCell>
                   ))}
-                  <TableCell>
-                    <QRCodeSVG
-                      value={getQRCodeValue(row)}
-                      size={100}
-                    />
-                  </TableCell>
+                  <TableCell align="center" sx={{ minWidth: 120 }}>二维码</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {excelData.map((row, index) => (
+                  <TableRow key={index}>
+                    {columns.map((column) => (
+                      <TableCell key={column} align="center" sx={{ whiteSpace: 'nowrap' }}>{row[column]}</TableCell>
+                    ))}
+                    <TableCell align="center">
+                      <QRCodeSVG
+                        value={getQRCodeValue(row)}
+                        size={100}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
       )}
 
       <SettingsDialog
