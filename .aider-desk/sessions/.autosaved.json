@@ -1,0 +1,9 @@
+{
+  "contextMessages": [],
+  "contextFiles": [
+    {
+      "path": "start_server.sh",
+      "readOnly": false
+    }
+  ]
+}
